@@ -1,0 +1,61 @@
+<div>
+<h3 class="containerForm h3">Alunos</h3>
+<div class="h-16 w-full bg-blue-500 containerForm"></div>
+<hr>
+ <h2 class="containerForm">Novo aluno</h2>
+<section class="containerForm">
+ 
+  <form (ngSubmit)="criar()">
+    <div>
+      <label>Nome</label>
+      <input [(ngModel)]="nome" name="nome" required class="label"/>
+    </div>
+
+    <div>
+      <label>Idade</label>
+      <input type="number" [(ngModel)]="idade" name="idade" required class="label"/>
+    </div>
+
+    <div>
+      <label>Curso</label>
+      <input [(ngModel)]="curso" name="curso" required class="label"/>
+    </div>
+
+    <div>
+      <label>Notas (ex.: 7,8,9)</label>
+      <input [(ngModel)]="notasCsv" name="notasCsv" class="label"/>
+    </div>
+
+    <button type="submit" [disabled]="salvando" class="salvar">Salvar</button>
+  </form>
+
+  @if (erro) { <p style="color:red">{{ erro }}</p> }
+</section>
+
+<hr>
+ <h2 class="containerForm">Lista</h2>
+<section class="containerList">
+
+  @if (carregando) {
+    <p>Carregando…</p>
+  } @else {
+    @if (alunos.length === 0) {
+      <p>Nenhum aluno.</p>
+    } @else {
+      <ul class="list-disc list-inside bg-gray-100 rounded-xl p-4 shadow-sm">
+        @for (a of alunos; track a._id) {
+          <li class="py-1 text-gray-800 hover:text-blue-600 cursor-pointer transition">
+            <strong>{{ a.nome }}</strong> — {{ a.idade }}
+            — {{ a.curso }}
+            <button (click)="excluir(a._id!)" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 active:bg-red-800 transition excluir">Excluir</button>
+          </li>
+        }
+      </ul>
+    }
+  }
+  <div>
+<button (click)="carregar()" [disabled]="carregando" class="recarregar px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 active:bg-blue-700 transition">
+ Recarregar</button>
+  </div>
+</section>
+
